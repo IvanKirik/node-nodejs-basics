@@ -1,6 +1,6 @@
 import {fileURLToPath} from "url";
 import {dirname, join} from "path";
-import {createReadStream, createWriteStream} from "fs";
+import {createReadStream, createWriteStream, promises} from "fs";
 import { createGzip } from 'zlib';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -15,7 +15,8 @@ const compress = async () => {
     const outputStream = createWriteStream(distPathToFile);
 
     inputStream.pipe(gzip).pipe(outputStream)
-        .on('finish', () => {
+        .on('finish', async () => {
+            await promises.rm(srcPathToFile)
             console.log('File successfully compressed');
         })
         .on('error', (err) => {
