@@ -1,7 +1,7 @@
 import {fileURLToPath} from "url";
 import {dirname, join} from "path";
 import {dirExist} from "./copy.js";
-import fs, {promises} from "fs";
+import { createReadStream } from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,7 +27,7 @@ await read();
 function readFile(pathToFile) {
     return new Promise((resolve, reject) => {
         const data = [];
-        const readStream = fs.createReadStream(pathToFile, 'utf8');
+        const readStream = createReadStream(pathToFile, 'utf8');
 
         readStream.on('data', (chunk) => {
             data.push(chunk);
