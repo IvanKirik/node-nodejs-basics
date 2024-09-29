@@ -11,13 +11,12 @@ const create = async () => {
 
     try {
         await promises.access(filePath);
-        console.error('Error: FS operation failed');
+        throw new Error('FS operation failed');
     } catch (err) {
         if (err.code === 'ENOENT') {
             try {
                 await promises.mkdir(folderPath, { recursive: true });
                 await promises.writeFile(filePath, 'I am fresh and young', 'utf8');
-                console.log('File created successfully');
             } catch (writeErr) {
                 console.error('Error writing file or creating directory', writeErr);
             }
