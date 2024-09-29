@@ -1,6 +1,6 @@
-import { fileURLToPath } from 'url';
 import fs, { promises } from 'fs';
-import path, { dirname, join } from 'path';
+import path, {dirname, join} from 'path';
+import {fileURLToPath} from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -37,11 +37,13 @@ async function copyDir(sourceDir, targetDir) {
     }
 }
 
-async function dirExist(src) {
+if (process.argv[1] === __filename) {
+    await copy();
+}
+
+export async function dirExist(src) {
     return await promises
         .access(src, fs.constants.F_OK)
         .then(() => true)
         .catch(() => false);
 }
-
-await copy();
